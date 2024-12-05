@@ -22,3 +22,16 @@ jobs:
           context: .
           push: false
           tags: family-hub:latest
+          
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Push Docker image to Amazon ECR
+        run: |
+          docker tag family-hub:latest <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/family-hub:latest
+          docker push <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/family-hub:latest
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          cluster: family-hub-cluster
+          service: family-hub-service
+          task-definition: ecs-task-definition.json
