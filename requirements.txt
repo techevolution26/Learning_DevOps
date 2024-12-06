@@ -1,1 +1,7 @@
 Flask==3.1.0  # or whatever version you're using
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Login
+Flask-Mail
+python-dotenv
+mysql-connector-python

@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: family-hub
+    environment:
+      MYSQL_ROOT_PASSWORD: whyalwaysme26
+      MYSQL_DATABASE: family_hub
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  web:
+    build: .
+    container_name: family_hub
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - SQLALCHEMY_DATABASE_URI=mysql+mysqlconnector://admin:whyalwaysme26@db/family_hub
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
